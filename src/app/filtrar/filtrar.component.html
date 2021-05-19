@@ -1,0 +1,5 @@
+<!-- Elemento de Input para permitir ao utilizador procurar produtos através de texto -->
+
+
+<div class="procurar"><input type="search" #inputProcurar (keyup)="filterList($event.currentTarget.value)" placeholder="Procurar..."><i class="fas fa-search" (click)="filterList(inputProcurar.value)"></i>
+</div>

@@ -1,0 +1,61 @@
+
+  :host {
+    width: 100%;
+    // height: 100%;
+    background: #F0F0F0;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    margin: 0 auto;
+    padding: 0 0 50px 0;
+    position: absolute;
+  }
+
+  // .adicionar{
+  //     position: relative;
+  // }
+
+  h2{
+    width: 100%;
+    text-align: center;
+    padding: 20px 0;
+    font-size: 2em;
+  }
+
+
+  input, button{
+    font-size: 1em;
+  }
+
+
+  .text-danger{
+    display: block;
+    padding: 10px;
+
+    &.msg{
+      padding: 40px;
+    }
+
+  }
+
+  #promo, #percentagem{
+    display: inline-block;
+    width: min-content;
+  }
+
+  .caixaflex{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    &.direita{
+      justify-content: flex-end;
+    }
+
+  }
+
+  #label-percentagem, #promo{
+    margin-right: 20px;
+    margin-bottom: 0;
+  }

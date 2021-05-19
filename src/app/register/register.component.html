@@ -1,0 +1,91 @@
+
+<!-- Página de registo de novo Utilizador com recurso a Template-driven forms e a validação Angular.
+ -->
+
+<div class="registar container">
+    
+    <div class="text-danger d-flex justify-content-center" *ngIf="erroRegisto">{{msgErro}}</div>
+
+    <h2>Novo Registo</h2>
+    <!--  [(ngModel)]="titulo" faz 2-way data binding e fornece o valor de value deste elemento à variável this.titulo -->
+    <!-- {{registerForm.value | json}} -->
+    <form #registerForm="ngForm"  novalidate (ngSubmit)="onSubmit(registerForm)">
+        <!-- Username -->
+        <div class="form-group row">
+            <label for="username" class="col-sm-4">Nome de utilizador</label>
+            <div class="col-sm-8">
+                <input type="text" id="username" name="username" #usernameNgModel="ngModel" [(ngModel)]="utilizador.username" placeholder="Nome de Utilizador" class="form-control" [class.is-invalid]="usernameNgModel.invalid && usernameNgModel.touched" required pattern="^[a-zA-Z0-9_.-]{5,}$">
+               
+                <div *ngIf="usernameNgModel.errors && usernameNgModel.invalid && usernameNgModel.touched">
+                    <small class="text-danger" *ngIf="usernameNgModel.errors.pattern">Por favor introduza pelo menos 5 caracteres alfanuméricos.</small>
+                    <small class="text-danger" *ngIf="usernameNgModel.errors.required">Por favor introduza um nome de utilizador.</small> 
+                </div>
+            </div>
+        </div>
+
+        <!-- Password -->
+        <div class="form-group row">
+            <label for="password" class="col-sm-4">Palavra-passe</label>
+            <div class="col-sm-8">
+                <input type="password" id="password" name="pass" #passwordNgModel="ngModel" [(ngModel)]="utilizador.password" placeholder="Palavra-passe" class="form-control" [class.is-invalid]="passwordNgModel.invalid && passwordNgModel.touched" required pattern="^(?=.*?[A-Z])(?=(.*[a-z]){1,})(?=(.*[\d]){1,})(?=(.*[^A-Za-z\d]){1,})(?!.*\s).{8,}">
+                
+                <div *ngIf="passwordNgModel.errors && passwordNgModel.invalid && passwordNgModel.touched">
+                    <small class="text-danger" *ngIf="passwordNgModel.errors.pattern">Por favor insira pelo menos 8 caracteres, dos quais: 1 digito, 1 letra, uma maiúscula, e um carácter não-alfanumérico.</small>
+                    <small class="text-danger" *ngIf="passwordNgModel.errors.required">Por favor introduza uma palavra-passe.</small> 
+                </div>
+            </div>
+        </div>
+       
+        <!-- Password 2 -->
+        <div class="form-group row">
+            <label for="password2" class="col-sm-4">Palavra-passe (repetição)</label>
+            <div class="col-sm-8">
+                <input type="password" id="password2" name="pass2" #password2NgModel="ngModel" ngModel placeholder="Palavra-passe" class="form-control" [class.is-invalid]="password2NgModel.invalid && password2NgModel.touched" required [pattern]="'^' + passwordNgModel.value + '$'" >
+
+                <div *ngIf="password2NgModel.errors && password2NgModel.invalid && password2NgModel.touched">
+                    <small class="text-danger" *ngIf="password2NgModel.errors.pattern && password2NgModel.value != passwordNgModel.value">A palavra-passe não corresponde à de cima, por favor introduza novamente.</small>
+                    <small class="text-danger" *ngIf="password2NgModel.errors.required">Por favor introduza uma palavra-passe.</small> 
+                </div>
+
+            </div>
+        </div>
+       
+        <!-- Email -->
+        <div class="form-group row">
+            <label for="email" class="col-sm-4">Endereço de correio electrónico</label>
+            <div class="col-sm-8">
+                 <!-- Para testar a variável #emailNgModel usar (keyup)="teste()" com viewChild() ou (keyup)="teste(emailNgModel)-->
+                <input type="email" id="email" name="email" #emailNgModel="ngModel" [(ngModel)]="utilizador.email" placeholder="MonstroDasBolachas@exemplo.com" class="form-control" [class.is-invalid]="emailNgModel.invalid && emailNgModel.touched" required [email]="true" >
+               
+                <div *ngIf="emailNgModel.errors && emailNgModel.invalid && emailNgModel.touched">
+                    <small class="text-danger" *ngIf="emailNgModel.errors.email">O endereço de correio electrónico não é válido.</small>
+                    <small class="text-danger" *ngIf="emailNgModel.errors.required">Por favor introduza um endereço de correio electrónico.</small> 
+                </div>
+            </div>
+        </div>
+       
+        <!-- Telefone -->
+        <div class="form-group row">
+            <label for="telefone" class="col-sm-4">Telefone</label>
+            <div class="col-sm-8">
+                <input type="text" name="telf" id="telefone" #telefoneNgModel="ngModel" [(ngModel)]="utilizador.telefone" placeholder="21 337 24 32" pattern="^\s*([\d]\s*){9,15}$" [class.is-invalid]="telefoneNgModel.invalid && telefoneNgModel.touched" required class="form-control">
+               <div *ngIf="telefoneNgModel.errors && telefoneNgModel.invalid && telefoneNgModel.touched">
+                    <small class="text-danger" *ngIf="telefoneNgModel.errors.pattern">O número de telefone não é válido.</small>
+                    <small class="text-danger" *ngIf="telefoneNgModel.errors.required">Por favor introduza um número de telefone.</small> 
+                </div>
+            </div>
+        </div>    
+
+        <div class="form-group row">
+            <div class="col-sm-4">
+
+            </div>
+            
+            <div class="col-sm-8">
+            <button *ngIf="registerForm.invalid" type="submit" class="btn btn-secondary" disabled >Enviar</button>
+            <button *ngIf="registerForm.valid" type="submit" class="btn btn-primary">Enviar</button>
+            </div>
+        </div>
+    </form>
+</div>
+    

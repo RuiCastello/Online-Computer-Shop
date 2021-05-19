@@ -1,0 +1,206 @@
+@import '../../assets/styles/breakpoints_mixins.scss';
+
+*{
+    box-sizing: border-box;
+}
+
+
+
+#nav-menu{
+    display: flex;
+    flex-direction: column;
+    // align-items: center;
+    justify-content: space-between;
+    min-width: 150px;
+    height: 50vh;
+    padding: 0px;
+    position: fixed;
+    z-index: 1;
+    background: #fff;
+    top: 0;
+    left: -110%;
+    transition: all 0.2s ease-in;
+    visibility: hidden;
+    background: rgb(241, 241, 241); 
+    border: 1px solid rgb(220, 220, 220); 
+    z-index: 5;
+    
+ 
+    @include sm {
+        width: 100vw;
+    }
+    @include md {
+        width: 15vw;
+    }
+    @include lg {
+        width: 20vw;
+    }
+    @include xl {
+        width: 22vw;
+    }
+
+    .mat-raised-button {
+        white-space: normal;
+    }
+
+    .link{
+        display:flex;
+        align-items: center;
+        justify-content: center;
+        // background: hsl(204, 100%, 99%);
+        background-color: hsl(210, 95%, 77%);
+        background-image: linear-gradient(73deg, hsl(210, 95%, 95%) 0%, hsl(271, 90%, 97%) 100%);
+        position:relative;
+        padding: 0 15px;
+        border-radius: 0;
+        flex: 1;
+        transform: none;
+
+        // max-height: 150px;
+        min-height: 60px;
+        width: 100%;
+       
+   
+
+        &.disabled{
+            height: 60px;
+            box-shadow: 0px 3px 1px -2px rgba(0, 0, 0, 0.2),0px 2px 2px 0px rgba(0, 0, 0, 0.14),0px 1px 5px 0px rgba(0, 0, 0, 0.12);
+            flex: 0.5;
+            position:relative;
+            &::after{
+                height: 10px;
+                background: inherit;
+                content: "";
+                display:block;
+                position:absolute;
+                width: 100%;
+                bottom:0;
+                z-index:1;
+            }
+            
+        }
+
+        &:hover:not(.disabled){
+            background: hsl(204, 100%, 75%);
+            outline: 2px solid hsl(204, 100%, 55%);
+            outline-offset: -2px;
+            cursor: pointer;
+
+
+
+            a{
+                color:hsl(204, 100%, 4%);
+            }
+        }
+
+        a{
+            text-decoration: none;
+            font-size: 3vmin;
+            transition: .8s color;
+
+            @include sm {
+                font-size: 8vmin;
+            }
+            @include md {
+                font-size: 3vmin;
+            }
+
+            span.smaller{
+                font-size: smaller;
+            }
+
+        }
+
+
+    }
+}
+
+
+
+#burger-btn{
+    position: fixed;
+    top: 10px;
+    left: 10px;
+    width: 50px;
+    height: 50px;
+    background: rgb(241, 241, 241); 
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+    flex-direction: column;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    z-index: 6;
+    transition: 0.3s all;
+    border-radius: 1px;
+}
+
+#burger-btn span{
+    background-color: black;
+    width: 40px;
+    height: 4px;
+    transition: 0.3s all;
+}
+
+
+
+
+
+#menu input[type="checkbox"] {
+    background: red; /* debug */
+    position: fixed;
+    cursor: pointer;
+    width: 50px;
+    height: 50px;
+    top: 10px;
+    left: 10px;
+    z-index: 8;
+    opacity: 0; // Hide checkbox
+    
+
+    &:checked{
+
+        // Seletor "~" é para siblings / ou irmãos
+        ~ #nav-menu{
+            // transform: none;
+            
+            // height: 460px;
+            top:0;
+            left:0;
+            visibility: visible;
+        }
+
+        ~ #burger-btn {
+
+            transform: scale(75%);
+            border-radius: 3px;
+            border: 1px solid black;
+            background: black;
+
+            span:nth-child(1){
+                background: white;
+                transform: translateY(11px) rotate(45deg);
+                transform-origin: center;
+                height:8px;
+                border-radius: 3px;
+            }
+            span:nth-child(2){
+                background: white;
+                transform: translateX(-200px);
+            }
+            span:nth-child(3){
+                background:white;
+                transform: translateY(-11px) rotate(-45deg);
+                transform-origin: center;
+                height: 8px;
+                border-radius: 3px;
+               
+
+            }
+
+        }
+    }
+
+
+    
+}

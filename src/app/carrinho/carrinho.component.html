@@ -1,0 +1,105 @@
+<!-- Página que mostra todos os produtos no Carrinho e permite efetuar a sua compra
+Usa Alguns elementos do Angular Material -->
+
+
+<app-filtrar *ngIf="filtrar" (filteredListEventEmitter)="listaitens = $event"></app-filtrar>
+
+<div *ngIf="myName != null && myName != '' && userLoggedIn"><h2>Bem-vindo {{ myName }}!</h2>  </div>
+<div class="container-fluid">
+    <div class="row justify-content-around">
+        <div class="col-12">
+            <!-- Título -->
+            <h2 *ngIf="!filtrar" (click)="expandAll()" class="Expand-All"> Carrinho</h2>
+            <!-- Categorias -->
+            <nav class="cat-filter">
+
+
+                <!-- Elemento Angular material com dropdown de multiplas seleções via checkboxes -->
+                <mat-form-field>
+                    <mat-label>Filtrar Categoria:</mat-label>
+                    <mat-select [formControl]="categoriaControl" multiple (selectionChange)="filtrarMultiplasCat($event)" >
+                      <mat-option *ngFor="let catId of catArray" [value]="catId">{{getCategoriaProduto(catId)}}
+
+                      </mat-option>
+                    </mat-select>
+                  </mat-form-field>
+
+                  <!-- Elemento Angular material para manter o design consistente, este já é um dropdown simples -->
+                <mat-form-field>
+                    <mat-label>Ordenar por:</mat-label>
+                    <mat-select [formControl]="ordenarControl" (openedChange)="ordenar($event)" >
+                      <mat-option value="precoA">Preço Ascendente</mat-option>
+                      <mat-option value="precoD">Preço Descendente</mat-option>
+                      <mat-option value="promo">Em Promoção</mat-option>
+                      <mat-option value="nomeA">Nome Ascendente</mat-option>
+                      <mat-option value="nomeD">Nome Descendente</mat-option>
+                      <mat-option value="catA">Categoria Ascendente</mat-option>
+                      <mat-option value="catD">Categoria Descendente</mat-option>
+                      <mat-option value="estadoA">Na Wishlist</mat-option>
+                    </mat-select>
+                  </mat-form-field>
+
+
+                  <!-- Forms antigas quando estava a investigar a melhor maneira de implementação -->
+<!--
+                <select>
+                    <option value selected disabled>Filtrar: Categoria</option>
+                    <option *ngFor="let catId of catArray" [value]="catId" (click)="filterCatSingle(catId)">{{getCategoriaProduto(catId)}}</option>
+                </select> -->
+
+                <!-- <div *ngFor="let catId of catArray; index2 as index2">
+                    <div [ngClass]=" catFiltered[catId] ? 'Green' : 'Not-Green' " class="catclicker cat{{catId}}" (click)="filterCat(catId)">{{getCategoriaProduto(catId)}}</div>
+                </div> -->
+                <!--
+                    <div [ngClass]=" catFiltered[0] ? 'Green' : 'Not-Green' " class="catclicker cat1" (click)="filterCat(0)">Editorial</div>
+                    <div [ngClass]=" catFiltered[1] ? 'Green' : 'Not-Green' " class="catclicker cat2" (click)="filterCat(1)">Q1 Goals</div>
+                    <div [ngClass]=" catFiltered[2] ? 'Green' : 'Not-Green' " class="catclicker cat3" (click)="filterCat(2)">Recruiting</div>
+                    <div [ngClass]=" catFiltered[3] ? 'Green' : 'Not-Green' " class="catclicker cat4" (click)="filterCat(3)">Website</div>
+                -->
+
+                <!-- Elemento que faz wrap a cada componente de produto -->
+            </nav>
+            <!-- Items -->
+            <div class="items-wrapper">
+                <ul class="ul-main-wrapper" *ngIf="listaitens.length > 0">
+                    <li class="list-element flex" *ngFor="let item of listaitens; index as index">
+
+                        <app-item (recalculateTotalEventEmitter)="calculateTotal()" (ItemRemovidoEventEmitter)="removerDaLista($event)" [item]="item" [index]="index" [clickedExpand]="clickedExpand"></app-item>
+
+                    </li>
+                </ul>
+                <ul *ngIf="listaitens.length <= 0"><p class="list-element" style="color:tomato;">Sem produtos...</p></ul>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<!-- Footer com o valor total dos produtos que se encontram no carrinho e botão para que se possa efetuar a compra -->
+<div class="footer-checkout">
+    <div class="footer total-titulo">Total: </div>
+    <div class="footer spacer"></div>
+    <div class="footer total-valor"> {{ contaTotal | currency:'EUR':'symbol-narrow':'1.0-2':'pt-PT'}}</div>
+    <div class="footer spacer"></div>
+    <div class="footer btn-pagar" (click)="pagar()">Efetuar Pagamento</div>
+</div>
+
+
+<!-- Elemento do tipo "modal" feito manualmente em css, para servir como janela de transação após clique em "efetuar pagamento".
+Uso de uma Bootstrap progress bar com algumas modificações a nível do css e uma variável do Angular embutida a definir a largura da barra para que o progresso reflita os valores dinâmicos de um Observable ao longo do tempo-->
+<div *ngIf="pago" class="pago-modal-wrapper">
+    <div class="pago-modal">
+        <div class="pago-content">
+
+            <div class="progress">
+                <div [class.green]="pagamentoCompleted" class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" [attr.aria-valuenow]="progress" aria-valuemin="0" aria-valuemax="100" style="width: {{progress}}%"></div>
+
+              </div>
+              <div>{{textProgresso}}</div>
+        </div>
+        <div [class.completed]="pagamentoCompleted" class="pago-footer">
+            <button type="submit" (click)="pagar(true)" class="btn btn-primary">Sair</button>
+        </div>
+
+    </div>
+</div>

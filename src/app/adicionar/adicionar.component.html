@@ -1,0 +1,144 @@
+
+<!-- Página que permite adicionar novos produtos à loja sempre que o Utilizador autenticado seja do tipo "Admin". Feita com recurso a template driven forms e validação de Angular.
+
+Condicionais de validação semelhantes às que usei noutros forms, sempre baseadas em required, no tipo de input e em patterns regex.
+Faço apenas uma distinção particular na condicional que ativa o botão de envio, para que o preço do item tenha sido pelo menos "touched" além de cumprir todas as outras validações, pois o preço trata-se de algo bastante sensível e não queremos que alguém envie um produto para a base de dados com o preço default por engano -->
+
+<div class="Adicionar-Produto container" >
+
+    <h2>Adicionar Produto</h2>
+    <div #msgElement>
+        <div *ngIf="msg && msg != ''" class="text-danger text-center msg">{{msg}}</div>
+        <div *ngIf="!isUserAdmin" class="text-danger text-center msg">Por favor faça <a href="#" [routerLink] = "['/login']"> login </a> com a sua conta de administrador para poder adicionar produtos.</div>
+    </div>
+
+    <!--  [(ngModel)]="titulo" faz 2-way data binding e fornece o valor de value deste elemento à variável this.titulo -->
+    <form id="formulario" *ngIf="isUserAdmin" #accountForm="ngForm"  novalidate (ngSubmit)="onSubmit(accountForm)">
+        <!-- Nome do Produto -->
+        <div class="form-group row">
+            <label for="nome" class="col-sm-4">Nome do produto *</label>
+            <div class="col-sm-8">
+                <input type="text" id="nome" name="nome" #nomeNgModel="ngModel" [(ngModel)]="produto.nome" placeholder="Nome do produto" class="form-control" [class.is-invalid]="nomeNgModel.invalid && nomeNgModel.touched" required pattern="^([a-zA-Z0-9_.-]+( +)*){3,}$">
+               
+                <div *ngIf="nomeNgModel.errors && nomeNgModel.invalid && nomeNgModel.touched">
+                    <small class="text-danger" *ngIf="nomeNgModel.errors.pattern">Por favor introduza pelo menos 3 caracteres alfanuméricos.</small>
+                    <small class="text-danger" *ngIf="nomeNgModel.errors.required">Por favor introduza um nome de produto.</small> 
+                </div>
+            </div>
+        </div>
+
+        <!-- Descricao do Produto -->
+        <div class="form-group row">
+            <label for="descricao" class="col-sm-4">Descrição do produto *</label>
+            <div class="col-sm-8">
+                <textarea form="formulario" id="descricao" name="descricao" #descricaoNgModel="ngModel" [(ngModel)]="produto.descricao" placeholder="Descrição do produto" class="form-control" [class.is-invalid]="descricaoNgModel.invalid && descricaoNgModel.touched" required ></textarea>
+               
+                <div *ngIf="descricaoNgModel.errors && descricaoNgModel.invalid && descricaoNgModel.touched">
+                    <!-- <small class="text-danger" *ngIf="descricaoNgModel.errors.pattern">Por favor introduza pelo menos 15 caracteres alfanuméricos.</small> -->
+                    <small class="text-danger" *ngIf="descricaoNgModel.errors.required">Por favor introduza uma descrição do produto.</small> 
+                </div>
+            </div>
+        </div>
+
+        <!-- preco do Produto -->
+        <div class="form-group row">
+            <label for="preco" class="col-sm-4">Preço do produto (em EUR) *</label>
+            <div class="col-sm-8">
+                <input type="number" id="preco" name="preco" #precoNgModel="ngModel" [(ngModel)]="produto.preco"  class="form-control" min="0.1" [class.is-invalid]="precoNgModel.invalid && precoNgModel.touched" required>
+               
+                <div *ngIf="precoNgModel.errors && precoNgModel.invalid && precoNgModel.touched">
+                    <small class="text-danger" *ngIf="precoNgModel.errors.required">Por favor introduza o preço do produto em Euros.</small> 
+                </div>
+            </div>
+        </div>
+
+        
+
+    <!-- Produto em Promoção? -->
+    <div class="form-group row">
+
+        <div class="caixaflex form-group col-sm-4">
+            <label for="promo">Produto em Promoção?</label>
+        </div>
+
+        <div class="caixaflex form-group col-sm-8">
+            <div class="form-check form-check-inline">
+                 <input #percentagemElement type="checkbox" name="promo" id="promo" #promoNgModel="ngModel" [(ngModel)]="produto.promo" [class.is-invalid]="promoNgModel.invalid && promoNgModel.touched" class="form-control"> Sim
+           </div>
+            <div *ngIf="percentagemElement.checked" class="caixaflex direita">
+                
+                <label id="label-percentagem" for="percentagem">Percentagem</label>
+
+                <input type="number" id="percentagem" name="percentagem" #percentagemNgModel="ngModel" [(ngModel)]="produto.promoDesconto" class="form-control" min="0" max="100" [class.is-invalid]="percentagemNgModel.invalid && percentagemNgModel.touched">
+            
+                <div *ngIf="percentagemNgModel.errors && percentagemNgModel.invalid && percentagemNgModel.touched">
+                    <small class="text-danger" *ngIf="percentagemNgModel.errors.required">Por favor introduza o desconto do produto em percentagem de 0 a 100.</small> 
+                </div>
+
+            </div>
+      
+        </div>
+    </div>
+
+
+
+        <!-- Quantidade do Produto -->
+        <div class="form-group row">
+            <label for="quantidade" class="col-sm-4">Quantidade do produto *</label>
+            <div class="col-sm-8">
+                <input type="number" id="quantidade" name="quantidade" #quantidadeNgModel="ngModel" [(ngModel)]="produto.stock" placeholder="Quantidade de produto" class="form-control" min="1" [class.is-invalid]="quantidadeNgModel.invalid && quantidadeNgModel.touched" required>
+            
+                <div *ngIf="quantidadeNgModel.errors && quantidadeNgModel.invalid && quantidadeNgModel.touched">
+                    <small class="text-danger" *ngIf="quantidadeNgModel.errors.required">Por favor introduza o preço do produto em Euros.</small> 
+                </div>
+            </div>
+        </div>
+
+     
+    
+        <!-- Imagem do produto -->
+             <!-- Para testar a variável #imagemNgModel usar (keyup)="teste()" com viewChild() ou (keyup)="teste2(imagemNgModel)-->
+        <div class="form-group row">
+            <label for="imagem" class="col-sm-4">Imagem do Produto (URL)</label>
+            <div class="col-sm-8">
+                <input (keyup)="teste()" type="url" name="imagem" id="imagem" #imagemNgModel="ngModel" [(ngModel)]="produto.imagem" pattern="^https?://.+" placeholder="" [class.is-invalid]="imagemNgModel.invalid && imagemNgModel.touched" class="form-control">
+               <div *ngIf="imagemNgModel.errors && imagemNgModel.invalid && imagemNgModel.touched">
+                    <small class="text-danger" *ngIf="imagemNgModel.errors">O url não é válido, por favor corrija o endereço (tem de começar por http:// ou https://).</small>
+                </div>
+            </div>
+        </div>    
+
+
+
+          <!-- Categoria do Produto -->
+        <div class="form-group row">
+            <label for="categoria" class="col-sm-4">Categoria do produto *</label>
+            <div class="col-sm-8">
+                    <select id="categoria" name="categoria" #categoriaNgModel="ngModel" [(ngModel)]="produto.categoria" class="form-control" [class.is-invalid]="categoriaNgModel.invalid && categoriaNgModel.touched" required>
+                        <option disabled hidden selected value="undefined"> - Categoria - </option>
+                        <option *ngFor="let catId of catArray" [value]="catId">{{getCategoriaProduto(catId)}}</option>
+                    </select>
+                    <div *ngIf="categoriaNgModel.errors && categoriaNgModel.invalid && categoriaNgModel.touched">
+                    <small class="text-danger" *ngIf="categoriaNgModel.errors.required">Por favor selecione uma categoria.</small> 
+                </div>
+            </div>
+        </div>
+
+
+        <div class="form-group row">
+            <div class="col-sm-4">
+                * - Campos necessários
+            </div>
+            
+            <div class="col-sm-8">
+            <button *ngIf="accountForm.invalid || (!precoNgModel.touched && !precoNgModel.dirty)" type="submit" class="btn btn-secondary" disabled >Adicionar</button>
+            <button *ngIf="accountForm.valid && (precoNgModel.touched || precoNgModel.dirty)" type="submit" class="btn btn-primary">Adicionar</button>
+            </div>
+        </div>
+    </form>
+</div>
+    
+
+
+
+

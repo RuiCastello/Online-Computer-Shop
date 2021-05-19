@@ -1,0 +1,61 @@
+<!-- Componente de Menu principal, Usa flexbox com media queries para se expandir horizontalmente a 100% quando a resolução é muito pequena (mobile) e usa Angular Material para os botões com algumas modificações/override em css.
+
+Animação tipica de menu principal em CSS com símbolo tipo "hamburger" com transições para expandir/colapsar.
+
+Botões de funcionalidades reservadas a administradores só aparecem quando o utilizador tem o role de admin e está autenticado.
+
+Quando o Utilizador está autenticado, aparece um botão de gestão de conta com o primeiro nome desse Utilizador.
+
+Existe também um selector de um outro componente aqui embutido que é um modal de bootstrap para aparecer quando o Utilizador faz login e tem produtos no carrinho ou favoritos enquanto utilizador anónimo. (Este modal serve para providenciar ao utilizador a possibilidade de guardar esses produtos nos favoritos e carrinho na sua própria conta)
+-->
+
+<div id="menu">
+
+  <input type="checkbox" #checkbox_element>
+
+  <div id="burger-btn">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+
+  <nav id="nav-menu">
+
+    <button mat-raised-button disabled class="link disabled"></button>
+
+    <button mat-raised-button class="link" [routerLink] = "['/listagem']" (click)="checkbox_element.checked = false">
+      <a href="#" [routerLink] = "['/listagem']">Produtos</a>
+    </button>
+    <button mat-raised-button class="link" [routerLink] = "['/listagem/filtrar']" (click)="checkbox_element.checked = false">
+      <a href="#" [routerLink] = "['/listagem/filtrar']">Procurar</a>
+    </button>
+    <button *ngIf="isUserAdmin" mat-raised-button class="link" [routerLink] = "['/adicionar']" (click)="checkbox_element.checked = false">
+      <a href="#" [routerLink] = "['/adicionar']" >Adicionar</a>
+    </button>
+    <button mat-raised-button class="link" [routerLink] = "['/carrinho']" (click)="checkbox_element.checked = false">
+      <a href="#" [routerLink] = "['/carrinho']" ><i class="fas fa-shopping-cart"></i> Carrinho </a>
+    </button>
+    <button mat-raised-button class="link" [routerLink] = "['/favoritos']" (click)="checkbox_element.checked = false">
+      <a href="#" [routerLink] = "['/favoritos']" ><i class="fas fa-heart"></i> Favoritos </a>
+    </button>
+
+    <!-- User logged out -->
+    <button *ngIf="!myName || myName == ''" mat-raised-button class="link" [routerLink] = "['/login']" (click)="checkbox_element.checked = false">
+      <a href="#" [routerLink] = "['/login']" >Login/Registar</a>
+    </button>
+
+    <!-- User logged in -->
+    <div *ngIf="myName != null && myName !=''">
+      <button mat-raised-button class="link" (click)="logout()">
+        <a href="#" (click)="logout()" >Logout</a>
+      </button>
+      <button mat-raised-button class="link" [routerLink] = "['/conta']" (click)="checkbox_element.checked = false">
+        <a href="#" [routerLink] = "['/conta']" >Gerir Conta <span class="smaller">({{myName}})</span></a>
+      </button>
+    </div>
+
+  </nav>
+</div>
+
+<app-modal [popUpModal]="popUpModal"></app-modal>
+

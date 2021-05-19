@@ -1,0 +1,128 @@
+
+<!-- Página de atualização de dados de utilizador registado -->
+<!-- Feito com Template-driven forms usando validação de Angular recorrendo a atributos como Pattern, required ou até type="email" -->
+
+<div class="Conta container" >
+
+
+
+    <h2>Gerir Conta</h2>
+    <!-- Mensagens de erro ou informacionais para que utilizadores não registados percebam que esta página é para utilizadores registados, fornecendo um link para que se registem ou façam login -->
+    <div #msgElement>
+        <div *ngIf="msg && msg != ''" class="text-danger text-center msg">{{msg}}</div>
+        <div *ngIf="!userEstaLogado" class="text-danger text-center msg">Por favor faça <a href="#" [routerLink] = "['/login']"> login </a> para gerir a sua conta, ou <a href="#" [routerLink]="['/registar']"> registe-se. </a></div>
+    </div>
+
+    <!--  [(ngModel)]="titulo" faz 2-way data binding e fornece o valor de value deste elemento à variável this.titulo -->
+    <form *ngIf="userEstaLogado" #accountForm="ngForm"  novalidate (ngSubmit)="onSubmit(accountForm)">
+        <!-- Username -->
+        <div class="form-group row">
+            <label for="username" class="col-sm-4">Nome de utilizador</label>
+            <div class="col-sm-8">
+                <input type="text" id="username" name="username" #usernameNgModel="ngModel" [(ngModel)]="utilizador.username" placeholder="Nome de Utilizador" class="form-control" [class.is-invalid]="usernameNgModel.invalid && usernameNgModel.touched" required pattern="^[a-zA-Z0-9_.-]{5,}$">
+
+                <div *ngIf="usernameNgModel.errors && usernameNgModel.invalid && usernameNgModel.touched">
+                    <small class="text-danger" *ngIf="usernameNgModel.errors.pattern">Por favor introduza pelo menos 5 caracteres alfanuméricos.</small>
+                    <small class="text-danger" *ngIf="usernameNgModel.errors.required">Por favor introduza um nome de utilizador.</small>
+                </div>
+            </div>
+        </div>
+
+        <!-- Nome -->
+        <div class="form-group row">
+            <label for="nome" class="col-sm-4">Nome</label>
+            <div class="col-sm-8">
+                <input type="text" id="nome" name="nome" #nomeNgModel="ngModel" [(ngModel)]="utilizador.nome" placeholder="Ex: Primeiro e último nome" class="form-control" [class.is-invalid]="nomeNgModel.invalid && nomeNgModel.touched">
+            </div>
+        </div>
+
+        <!-- Password -->
+        <div class="form-group row">
+            <label for="password" class="col-sm-4">Palavra-passe</label>
+            <div class="col-sm-8">
+                <input type="password" id="password" name="pass" #passwordNgModel="ngModel" [(ngModel)]="utilizador.password" placeholder="Palavra-passe" class="form-control" [class.is-invalid]="passwordNgModel.invalid && passwordNgModel.touched" pattern="^(?=.*?[A-Z])(?=(.*[a-z]){1,})(?=(.*[\d]){1,})(?=(.*[^A-Za-z\d]){1,})(?!.*\s).{8,}">
+
+                <div *ngIf="passwordNgModel.errors && passwordNgModel.invalid && passwordNgModel.touched">
+                    <small class="text-danger" *ngIf="passwordNgModel.errors.pattern">Por favor insira pelo menos 8 caracteres, dos quais: 1 digito, 1 letra, uma maiúscula, e um carácter não-alfanumérico.</small>
+                    <small class="text-danger" *ngIf="passwordNgModel.errors.required">Por favor introduza uma palavra-passe.</small>
+                </div>
+            </div>
+        </div>
+
+        <!-- Password 2 -->
+        <div class="form-group row">
+            <label for="password2" class="col-sm-4">Palavra-passe (repetição)</label>
+            <div class="col-sm-8">
+                <input type="password" id="password2" name="pass2" #password2NgModel="ngModel" ngModel placeholder="Palavra-passe" class="form-control" [class.is-invalid]="password2NgModel.invalid && password2NgModel.touched" [pattern]="'^' + passwordNgModel.value + '$'" >
+
+                <div *ngIf="password2NgModel.errors && password2NgModel.invalid && password2NgModel.touched">
+                    <small class="text-danger" *ngIf="password2NgModel.errors.pattern && password2NgModel.value != passwordNgModel.value">A palavra-passe não corresponde à de cima, por favor introduza novamente.</small>
+                    <small class="text-danger" *ngIf="password2NgModel.errors.required">Por favor introduza uma palavra-passe.</small>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- Email -->
+        <div class="form-group row">
+            <label for="email" class="col-sm-4">Endereço de correio electrónico</label>
+            <div class="col-sm-8">
+                 <!-- Para testar a variável #emailNgModel usar (keyup)="teste()" com viewChild() ou (keyup)="teste(emailNgModel)-->
+                <input type="email" id="email" name="email" #emailNgModel="ngModel" [(ngModel)]="utilizador.email" placeholder="MonstroDasBolachas@exemplo.com" class="form-control" [class.is-invalid]="emailNgModel.invalid && emailNgModel.touched" required [email]="true" >
+
+                <div *ngIf="emailNgModel.errors && emailNgModel.invalid && emailNgModel.touched">
+                    <small class="text-danger" *ngIf="emailNgModel.errors.email">O endereço de correio electrónico não é válido.</small>
+                    <small class="text-danger" *ngIf="emailNgModel.errors.required">Por favor introduza um endereço de correio electrónico.</small>
+                </div>
+            </div>
+        </div>
+
+        <!-- Telefone -->
+        <div class="form-group row">
+            <label for="telefone" class="col-sm-4">Telefone</label>
+            <div class="col-sm-8">
+                <input type="text" name="telf" id="telefone" #telefoneNgModel="ngModel" [(ngModel)]="utilizador.telefone" placeholder="21 337 24 32" pattern="^\s*([\d]\s*){9,15}$" [class.is-invalid]="telefoneNgModel.invalid && telefoneNgModel.touched" required class="form-control">
+               <div *ngIf="telefoneNgModel.errors && telefoneNgModel.invalid && telefoneNgModel.touched">
+                    <small class="text-danger" *ngIf="telefoneNgModel.errors.pattern">O número de telefone não é válido.</small>
+                    <small class="text-danger" *ngIf="telefoneNgModel.errors.required">Por favor introduza um número de telefone.</small>
+                </div>
+            </div>
+        </div>
+
+        <!-- Morada -->
+        <div class="form-group row">
+            <label for="morada" class="col-sm-4">Morada</label>
+            <div id="morada" class="col-sm-8">
+                <input type="text" aria-label="Rua" name="rua" id="rua" [(ngModel)]="utilizador.morada.rua" placeholder="Rua" class="form-control">
+                <input type="text" aria-label="Código Postal" name="codigoPostal" id="codigoPostal" [(ngModel)]="utilizador.morada.codigoPostal" placeholder="Código Postal" class="form-control">
+                <input type="text" aria-label="Cidade" name="cidade" id="cidade" [(ngModel)]="utilizador.morada.cidade" placeholder="Cidade" class="form-control">
+                <input type="text" aria-label="País" name="pais" id="pais" [(ngModel)]="utilizador.morada.pais" placeholder="País" class="form-control">
+
+            </div>
+        </div>
+
+
+        <!-- fotoPerfil -->
+             <!-- Para testar a variável #fotoNgModel usar (keyup)="teste()" com viewChild() ou (keyup)="teste2(fotoNgModel)-->
+        <div class="form-group row">
+            <label for="foto" class="col-sm-4">Foto de Perfil (URL)</label>
+            <div class="col-sm-8">
+                <input type="url" name="foto" id="foto" #fotoNgModel="ngModel" [(ngModel)]="utilizador.fotoPerfil" pattern="^https?://.+" placeholder="" [class.is-invalid]="fotoNgModel.invalid && fotoNgModel.touched" class="form-control">
+               <div *ngIf="fotoNgModel.errors && fotoNgModel.invalid && fotoNgModel.touched">
+                    <small class="text-danger" *ngIf="fotoNgModel.errors">O url não é válido, por favor corrija o endereço (tem de começar por http:// ou https://).</small>
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group row">
+            <div class="col-sm-4">
+
+            </div>
+
+            <div class="col-sm-8">
+            <button *ngIf="accountForm.invalid" type="submit" class="btn btn-secondary" disabled >Enviar</button>
+            <button *ngIf="accountForm.valid" type="submit" class="btn btn-primary">Enviar</button>
+            </div>
+        </div>
+    </form>
+</div>

@@ -1,0 +1,60 @@
+
+<!-- Componente que mostra o produto em qualquer lista -->
+<!-- Composto por vários elementos interativos:
+1- Um clique no produto executa uma animação de "abertura" que mostra informação mais detalhada sobre o produto. Animação feita para parecer orgânica e fluida, como se se tratasse de uma espécie de enrolamento e desenrolamento de um pergaminho.
+2- Ícone de Coração serve para colocar um produto na lista de favoritos
+3- Ícone de Carrinho coloca produto no carrinho do utilizador e abre elemento de aumento/diminuição da quantidade de produto. Carregar no ícone do carrinho faz de toggle/shortcut para remover qualquer quantidade do produto de uma só vez.
+4- Preço do produto, e caso tenha desconto mostra o valor do desconto percentualmente e em euros. Mostra também o valor após o desconto e o valor original riscado.
+5- Elemento visual de contração/expansão de elemento animado em CSS (símbol de mais e de menos)
+ -->
+
+<div [ngClass]="{'Red': itemAddedToWishList(),'Not-Red': !itemAddedToWishList(), 'Green': itemAddedToCarrinho(), 'Not-Green': !itemAddedToCarrinho()}" (click)="clickedExpand[index] = !clickedExpand[index]" class="item-wrapper main" *ngIf="item.stock > 0">
+    
+    <div class="product-head">
+        <img [ngClass]="{'is-clicked': clickedExpand[index], 'collapsed': !clickedExpand[index]}" class="thumb" src="{{item.imagem}}"> 
+        <div class="item-wrapper flex"  [ngClass]="{'is-clicked': clickedExpand[index], 'collapsed': !clickedExpand[index]}" >
+            <div class="item-title-wrapper flex">
+                
+                <div [ngClass]="{'Red': itemIsAddedToWishList, 'Not-Red': !itemIsAddedToWishList, 'Green': itemIsAddedToCarrinho, 'Not-Green': !itemIsAddedToCarrinho, 'expanded': clickedExpand[index], 'collapsed': !clickedExpand[index]}" 
+                class="bullet-point" (click)="clickedExpand[index] = !clickedExpand[index]; $event.stopPropagation();">
+                </div>
+            
+                <div class="product-list-title" [ngClass]="clickedExpand[index]? 'expanded' : 'collapsed'" (click)="clickedExpand[index] = !clickedExpand[index]; $event.stopPropagation();">  <!-- <span>Produto {{ index }} :</span> --> <span>{{ item.nome | capFirstLetterString }} </span>
+                </div>
+
+            </div>
+            
+            <i *ngIf="isUserAdmin" class="Not-Green Not-Red remove far fa-trash-alt" (click)="removeTask(item.id); $event.stopPropagation();"></i> 
+            <!-- fas far -->
+            <!-- <i class="done coracao fa-heart" [ngClass]="{'Red': itemIsAddedToWishList, 'Not-Red': !itemIsAddedToWishList, 'fas': itemIsAddedToWishList, 'far': !itemIsAddedToWishList}" (click)="adicionarItemWishList(item.id); $event.stopPropagation();"></i> -->
+            <i class="preco" *ngIf="!item.promo" (click)="adicionarItemCarrinho(item.id); $event.stopPropagation();">{{ item.preco | currency:'EUR':'symbol-narrow':'1.0-2':'pt-PT'}}</i>
+            <i class="preco promo" *ngIf="item.promo" (click)="adicionarItemCarrinho(item.id); $event.stopPropagation();" [ngClass]="{'Green': itemIsAddedToCarrinho, 'Not-Green': !itemIsAddedToCarrinho}" ><div class="preco-antigo"><span class="preco-antigo">{{ item.preco | currency:'EUR':'symbol-narrow':'1.0-0':'pt-PT'}}</span><span class="desconto"> -{{ item.preco * (item.promoDesconto) * 0.01 | currency:'EUR':'symbol-narrow':'1.0-0':'pt-PT'}}</span></div>{{ item.preco * (100 - item.promoDesconto) * 0.01 | currency:'EUR':'symbol-narrow':'1.0-2':'pt-PT'}}</i>
+            <div class="comprar">
+                 <i class="done" [ngClass]="itemIsAddedToCarrinho? 'fas fa-cart-arrow-down' : 'fas fa-shopping-cart'" (click)="adicionarItemCarrinho(item.id); $event.stopPropagation();"></i>
+                 <div class="add-remove" *ngIf="itemIsAddedToCarrinho">
+                    <i class="fas fa-plus-circle" (click)="adicionarItemCarrinhoMais(item.id); $event.stopPropagation();"></i>
+                    <div class="product-quantity">{{ quantidadeProdutoCarrinho }}</div>
+                    <i class="fas fa-minus-circle" (click)="adicionarItemCarrinhoMenos(item.id); $event.stopPropagation();"></i>
+                 </div>
+
+            </div>
+        </div>
+        <div class="product-details-wrapper">
+            <ul class="product-details" [ngClass]="{'is-clicked': clickedExpand[index], 'collapsed': !clickedExpand[index]}"> 
+                <li><span>Descrição:</span> {{item.descricao | capFirstLetterString}}</li> 
+                <li><span>Categoria:</span> {{getCategoriaProduto(item.categoria)}}</li>
+                <li *ngIf="item.promo"><span>Em promoção:</span> {{item.promoDesconto | capFirstLetterString}}% de desconto</li>
+                <!-- <li>
+                    <span class="estado" *ngIf="itemIsAddedToWishList"><span>Estado:</span> NA WISHLIST</span>
+                    <span (click)="adicionarItemWishList(item.id)" class="estado" *ngIf="!itemIsAddedToWishList"><span>Estado:</span> Adicionar à Wishlist</span>
+                </li> -->
+                <div class="favourite bottom"><i class="done coracao fa-heart" [ngClass]="{'Red': itemIsAddedToWishList, 'Not-Red': !itemIsAddedToWishList, 'fas': itemIsAddedToWishList, 'far': !itemIsAddedToWishList}" (click)="adicionarItemWishList(item.id); $event.stopPropagation();"></i></div>
+            </ul>
+          
+        </div>
+        <div *ngIf="item.promo" class="promocao">PROMO<br>{{item.promoDesconto | capFirstLetterString}}%</div>
+        <div class="favourite"><i class="done coracao fa-heart" [ngClass]="{'Red': itemIsAddedToWishList, 'Not-Red': !itemIsAddedToWishList, 'fas': itemIsAddedToWishList, 'far': !itemIsAddedToWishList}" (click)="adicionarItemWishList(item.id); $event.stopPropagation();"></i></div>
+    </div>
+   
+</div>
+

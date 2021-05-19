@@ -1,0 +1,19 @@
+<div [ngClass]="heroUp? 'up' : ''" class="hero-wrapper" (click)="toggleHeroWrapper(esteElemento)" #esteElemento >
+
+
+<div class="backgroundAnim"><i class="fas fa-shopping-cart"></i></div>
+
+<h1 [@slideDownUp]="animationState" class="hero">
+    {{ title | uppercase }}
+  </h1>
+<h2 [@slideDownUp]="animationState" >We sell stuff.</h2>
+  <!-- <button (click)="toggle()"></button> --> 
+
+
+  <div class="arrows animated infinite flash slower delay-1s">
+    <div class="arrow one">^</div>
+    <div class="arrow two">^</div>
+    <div class="arrow three">^</div>
+  </div>
+</div>
+

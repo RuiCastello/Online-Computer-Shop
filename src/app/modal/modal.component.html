@@ -1,0 +1,20 @@
+
+<!-- 
+  Modal para providenciar ao Utilizador uma forma de guardar listas de produtos adicionados aos favoritos ou carrinho anonimamente, na sua própria conta.
+  Feito com ng-template e bootstrap modal
+ -->
+<ng-template #content let-modal>
+    <div class="modal-header">
+      <h4 class="modal-title">Tem produtos atualmente adicionados aos favoritos e/ou ao seu carrinho</h4>
+      <!-- <button type="button" class="close" aria-label="Close" (click)="copiarProdutos(false)">
+        <span aria-hidden="true">&times;</span>
+      </button> -->
+    </div>
+    <div class="modal-body">
+      <p>Deseja guardar esses produtos na sua conta? </p>
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-light" (click)="copiarProdutos(false)">Não</button>
+      <button type="button" class="btn btn-light" (click)="copiarProdutos(true)">Sim, Guardar</button>
+    </div>
+  </ng-template>

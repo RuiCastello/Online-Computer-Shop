@@ -1,0 +1,71 @@
+
+<!-- Página/componente muito semelhante ao componente do carrinho mas somente para exibir produtos na lista de favoritos -->
+
+<app-filtrar *ngIf="filtrar" (filteredListEventEmitter)="listaitens = $event"></app-filtrar>
+
+<div *ngIf="myName != null && myName != '' && userLoggedIn"><h2>Bem-vindo {{ myName }}!</h2>  </div>
+<div class="container-fluid">
+    <div class="row justify-content-around">
+        <div class="col-12">
+            <!-- Título -->
+            <h2 *ngIf="!filtrar" (click)="expandAll()" class="Expand-All"> Favoritos</h2>
+            <!-- Categorias -->
+            <nav class="cat-filter">
+
+
+                <mat-form-field>
+                    <mat-label>Filtrar Categoria:</mat-label>
+                    <mat-select [formControl]="categoriaControl" multiple (selectionChange)="filtrarMultiplasCat($event)" >
+                      <mat-option *ngFor="let catId of catArray" [value]="catId">{{getCategoriaProduto(catId)}}
+
+                      </mat-option>
+                    </mat-select>
+                  </mat-form-field>
+
+
+                <mat-form-field>
+                    <mat-label>Ordenar por:</mat-label>
+                    <mat-select [formControl]="ordenarControl" (openedChange)="ordenar($event)" >
+                      <mat-option value="precoA">Preço Ascendente</mat-option>
+                      <mat-option value="precoD">Preço Descendente</mat-option>
+                      <mat-option value="promo">Em Promoção</mat-option>
+                      <mat-option value="nomeA">Nome Ascendente</mat-option>
+                      <mat-option value="nomeD">Nome Descendente</mat-option>
+                      <mat-option value="catA">Categoria Ascendente</mat-option>
+                      <mat-option value="catD">Categoria Descendente</mat-option>
+                      <mat-option value="estadoD">No Carrinho</mat-option>
+                    </mat-select>
+                  </mat-form-field>
+
+<!--
+                <select>
+                    <option value selected disabled>Filtrar: Categoria</option>
+                    <option *ngFor="let catId of catArray" [value]="catId" (click)="filterCatSingle(catId)">{{getCategoriaProduto(catId)}}</option>
+                </select> -->
+
+                <!-- <div *ngFor="let catId of catArray; index2 as index2">
+                    <div [ngClass]=" catFiltered[catId] ? 'Green' : 'Not-Green' " class="catclicker cat{{catId}}" (click)="filterCat(catId)">{{getCategoriaProduto(catId)}}</div>
+                </div> -->
+                <!--
+                    <div [ngClass]=" catFiltered[0] ? 'Green' : 'Not-Green' " class="catclicker cat1" (click)="filterCat(0)">Editorial</div>
+                    <div [ngClass]=" catFiltered[1] ? 'Green' : 'Not-Green' " class="catclicker cat2" (click)="filterCat(1)">Q1 Goals</div>
+                    <div [ngClass]=" catFiltered[2] ? 'Green' : 'Not-Green' " class="catclicker cat3" (click)="filterCat(2)">Recruiting</div>
+                    <div [ngClass]=" catFiltered[3] ? 'Green' : 'Not-Green' " class="catclicker cat4" (click)="filterCat(3)">Website</div>
+                -->
+            </nav>
+            <!-- Items -->
+            <div class="items-wrapper">
+                <ul class="ul-main-wrapper" *ngIf="listaitens.length > 0">
+                    <li class="list-element flex" *ngFor="let item of listaitens; index as index">
+
+                        <app-item (ItemRemovidoWishlistEventEmitter)="removerDaLista($event)" [item]="item" [index]="index" [clickedExpand]="clickedExpand"></app-item>
+
+                    </li>
+                </ul>
+                <ul *ngIf="listaitens.length <= 0"><p class="list-element" style="color:tomato;">Sem produtos...</p></ul>
+            </div>
+
+        </div>
+    </div>
+</div>
+

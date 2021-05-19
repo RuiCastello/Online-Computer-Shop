@@ -1,0 +1,41 @@
+<div class="main-wrapper">
+    
+
+     <!-- Hero page -->
+     
+    <div class="hero-wrapper" [@animHero]="heroUp">
+        <div class="main" *ngIf="!heroUp && displayHeroVar">
+            <app-heropage  (heroUpEventEmitter)="checkHeroUp($event)" (heroWrapperEventEmitter)="esteElemento = $event" [title]="title"></app-heropage>
+        </div>
+    </div>
+    
+
+    <!-- After Hero page -->
+    <div *ngIf="displayHeroVar" class="content-wrapper" [@animContent]="heroUp" >
+        <div class="main content" *ngIf="heroUp && displayHeroVar">
+    
+            <!-- Main Menu -->
+            <app-mainmenu ></app-mainmenu>
+            
+            <!-- Content with routes -->
+            <div [@animRoutes]="outletPage">
+                <router-outlet #appOutlet="outlet"></router-outlet>
+            </div>
+        </div>
+    </div>  
+
+
+    <div *ngIf="!displayHeroVar" class="content-wrapper">
+        <div class="main content">
+    
+            <!-- Main Menu -->
+            <app-mainmenu ></app-mainmenu>
+            
+            <!-- Content with routes -->
+            <div [@animRoutes]="outletPage">
+                <router-outlet #appOutlet="outlet"></router-outlet>
+            </div>
+        </div>
+    </div>
+    
+</div>

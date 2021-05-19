@@ -1,0 +1,52 @@
+
+<!-- Página de Login com entrada para email ou username e password.
+Mais uma vez faço uso aqui de template-driven forms com validação Angular
+Footer com link para a página de registo de novo utilizador -->
+
+<div class="login container-xl">
+    <div class="text-danger d-flex justify-content-center" *ngIf="registado">Registado com sucesso! Por favor faça login.</div>
+    <div class="text-danger d-flex justify-content-center" *ngIf="erroLogin">Erro no login! Por favor tente novamente.</div>
+    <h2>Login</h2>
+    <!--  [(ngModel)]="titulo" faz 2-way data binding e fornece o valor (value) deste elemento à variável this.titulo -->
+    <!-- {{loginForm.value | json}} -->
+    <form #loginForm="ngForm" novalidate (ngSubmit)="onSubmit(loginForm)">
+        <!-- Username -->
+        <div class="form-group row">
+            <label for="username" class="col-sm-4 col-xl-5">Nome de utilizador</label>
+            <div class="col-sm-8 col-xl-7">
+                <input type="text" id="username" name="username" #usernameNgModel="ngModel" [(ngModel)]="utilizador.username" placeholder="Nome de Utilizador (ou email)" class="form-control" [class.is-invalid]="usernameNgModel.invalid && usernameNgModel.touched" required pattern="(^[a-zA-Z0-9_.-]{5,}$)|(^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$)">
+
+                <div *ngIf="usernameNgModel.errors && usernameNgModel.invalid && usernameNgModel.touched">
+                    <small class="text-danger" *ngIf="usernameNgModel.errors.pattern">Por favor introduza o seu Endereço de E-mail ou Nome de Utilizador.</small>
+                    <small class="text-danger" *ngIf="usernameNgModel.errors.required">Por favor introduza um nome de utilizador.</small>
+                </div>
+            </div>
+        </div>
+
+        <!-- Password -->
+        <div class="form-group row">
+            <label for="password" class="col-sm-4 col-xl-5">Palavra-passe</label>
+            <div class="col-sm-8 col-xl-7">
+                <input type="password" id="password" name="pass" #passwordNgModel="ngModel" [(ngModel)]="utilizador.password" placeholder="Palavra-passe" class="form-control" [class.is-invalid]="passwordNgModel.invalid && passwordNgModel.touched" required pattern="^(?=.*?[A-Z])(?=(.*[a-z]){1,})(?=(.*[\d]){1,})(?=(.*[^A-Za-z\d]){1,})(?!.*\s).{8,}">
+
+                <div *ngIf="passwordNgModel.errors && passwordNgModel.invalid && passwordNgModel.touched">
+                    <small class="text-danger" *ngIf="passwordNgModel.errors.pattern">Por favor insira pelo menos 8 caracteres, dos quais: 1 digito, 1 letra, uma maiúscula, e um carácter não-alfanumérico.</small>
+                    <small class="text-danger" *ngIf="passwordNgModel.errors.required">Por favor introduza uma palavra-passe.</small>
+                </div>
+            </div>
+        </div>
+        <div class="form-group row">
+            <div class="col-sm-4 col-xl-5">
+
+            </div>
+            <div class="col-sm-8 col-xl-7">
+                <button *ngIf="loginForm.invalid" type="submit" class="btn btn-secondary" disabled >Enviar</button>
+                <button *ngIf="loginForm.valid" id="btn-enviar" type="submit" class="btn btn-primary">Enviar</button>
+                <!-- <button *ngIf="loginForm.valid" id="btn-enviar" type="submit" class="btn btn-primary" (click)="enviarLogin($event)">Enviar</button> -->
+             </div>
+        </div>
+    </form>
+
+    <h3 class="d-flex justify-content-center"> <a href="#" [routerLink]="['/registar']">Ainda não tem conta? Registe-se!</a> </h3>
+
+</div>
