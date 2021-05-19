@@ -24,6 +24,7 @@ export class ItemComponent implements OnInit, OnChanges, AfterContentChecked {
   itemIsAddedToCarrinho: boolean;
   isUserAdmin:boolean = false;
   quantidadeProdutoCarrinho: number;
+  urlItem: string;
 
   //Envia variáveis sobre ações que foram feitas ao item a ser renderizado por este componente para o elemento pai
   @Output() ItemRemovidoEventEmitter: EventEmitter<number> = new EventEmitter(true);
@@ -53,11 +54,12 @@ export class ItemComponent implements OnInit, OnChanges, AfterContentChecked {
     //set de uma imagem padrão (default placeholder) para quando um produto é adicionado à lista e uma imagem de produto não foi fornecida
     // Caso a imagem seja local, então providência o path adequado para a renderização da imagem no dom, e caso seja um url, então renderize-se esse url como hotlink
     if (!this.item.imagem || this.item.imagem == undefined || this.item.imagem == null || this.item.imagem == "")
-    { this.item.imagem = "../../assets/images/default.png"; }
+    { this.urlItem = "assets/images/default.png"; }
     else if (this.item.imagem.trim().indexOf("http") >= 0){
+      this.urlItem = this.item.imagem;
     }
     else{
-      this.item.imagem = "../../assets/images/"+ this.item.imagem;
+      this.urlItem = "assets/images/"+ this.item.imagem;
     }
   }
 

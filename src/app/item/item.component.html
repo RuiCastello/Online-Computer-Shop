@@ -11,7 +11,7 @@
 <div [ngClass]="{'Red': itemAddedToWishList(),'Not-Red': !itemAddedToWishList(), 'Green': itemAddedToCarrinho(), 'Not-Green': !itemAddedToCarrinho()}" (click)="clickedExpand[index] = !clickedExpand[index]" class="item-wrapper main" *ngIf="item.stock > 0">
     
     <div class="product-head">
-        <img [ngClass]="{'is-clicked': clickedExpand[index], 'collapsed': !clickedExpand[index]}" class="thumb" src="{{item.imagem}}"> 
+        <img [ngClass]="{'is-clicked': clickedExpand[index], 'collapsed': !clickedExpand[index]}" class="thumb" src="{{urlItem}}"> 
         <div class="item-wrapper flex"  [ngClass]="{'is-clicked': clickedExpand[index], 'collapsed': !clickedExpand[index]}" >
             <div class="item-title-wrapper flex">
                 
