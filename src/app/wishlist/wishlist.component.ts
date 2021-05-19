@@ -41,7 +41,7 @@ export class WishlistComponent implements OnInit {
     for (let index in this.listaitens) this.clickedExpand[index] = false;
     this.catArray = data.getCatArray();
 
-    console.log(this.catArray);
+    // console.log(this.catArray);
     for(let index in this.catArray) this.catFiltered[index] = false;
 
   }
@@ -53,7 +53,7 @@ export class WishlistComponent implements OnInit {
     else if (this.actRoute.snapshot.params.filtrar == 'bemvindo'){
       this.userLoggedIn = true;
       this.userSelfId = this.actRoute.snapshot.params.filtroInput.toString();
-      console.log(this.userSelfId);
+      // console.log(this.userSelfId);
     }
 
     //Autenticação
@@ -93,7 +93,7 @@ export class WishlistComponent implements OnInit {
 
   filterCatSingle(categoria:number | string){
     
-    console.log(categoria);
+    // console.log(categoria);
 
     this.listaitens = this.data.procurarListaCatSingle(categoria as number);
 
@@ -131,7 +131,7 @@ export class WishlistComponent implements OnInit {
       
     }
 
-    console.log(result)
+    // console.log(result)
   }
 
   itemAddedToWishList(productId:number)
@@ -156,13 +156,13 @@ export class WishlistComponent implements OnInit {
     let result:string;
    
     if(!event) {
-      console.log('dropdown closed');
+      // console.log('dropdown closed');
       result = this.ordenarControl.value;
 
       if (result){
           switch (result){
             case 'precoA':
-              console.log('Preço Ascendente!')
+              // console.log('Preço Ascendente!')
               this.listaitens = this.listaitens.sort((a,b) =>{
                 let descontoA:number;
                 let descontoB:number;
@@ -177,7 +177,7 @@ export class WishlistComponent implements OnInit {
               })
               break;
             case 'precoD':
-              console.log('Preco Descendente!')
+              // console.log('Preco Descendente!')
               this.listaitens = this.listaitens.sort((a,b) =>{
                 let descontoA:number;
                 let descontoB:number;
@@ -192,31 +192,31 @@ export class WishlistComponent implements OnInit {
               })
               break;
             case 'nomeA':
-              console.log('Nome Ascendente!')
+              // console.log('Nome Ascendente!')
               this.listaitens = this.listaitens.sort((a,b) =>{
                 return a.nome.localeCompare(b.nome)
               })
               break;
             case 'nomeD':
-              console.log('Nome Descendente!')
+              // console.log('Nome Descendente!')
               this.listaitens = this.listaitens.sort((a,b) =>{
                 return a.nome.localeCompare(b.nome)
               }).reverse();
               break;
             case 'catA':
-              console.log('Categoria Ascendente!')
+              // console.log('Categoria Ascendente!')
               this.listaitens = this.listaitens.sort((a,b) =>{
                 return this.getCategoriaProduto(a.categoria).localeCompare(this.getCategoriaProduto(b.categoria))
               })
               break;
             case 'catD':
-              console.log('Categoria Descendente!')
+              // console.log('Categoria Descendente!')
               this.listaitens = this.listaitens.sort((a,b) =>{
                 return this.getCategoriaProduto(b.categoria).localeCompare(this.getCategoriaProduto(a.categoria))
               })
               break;
             case 'estadoA':
-              console.log('Produtos na wishlist')
+              // console.log('Produtos na wishlist')
               this.listaitens = this.listaitens.sort((a,b) =>{
                 if(this.itemAddedToWishList(a.id) && this.itemAddedToWishList(b.id)) {
                   return b.nome.localeCompare(a.nome);
@@ -227,7 +227,7 @@ export class WishlistComponent implements OnInit {
               }).reverse()
               break;
             case 'estadoD':
-              console.log('Produtos no carrinho')
+              // console.log('Produtos no carrinho')
               this.listaitens = this.listaitens.sort((a,b) =>{
                 if(this.itemAddedToCarrinho(a.id) && this.itemAddedToCarrinho(b.id)) {
                   return b.nome.localeCompare(a.nome);
@@ -238,7 +238,7 @@ export class WishlistComponent implements OnInit {
               }).reverse()
               break;
             case 'promo':
-              console.log('Produtos em Promoção')
+              // console.log('Produtos em Promoção')
               this.listaitens = this.listaitens.sort((a,b) =>{
                 if(a.promo && b.promo) {
                   return b.nome.localeCompare(a.nome);
@@ -263,7 +263,7 @@ export class WishlistComponent implements OnInit {
       
     }
 
-    console.log(result)
+    // console.log(result)
   }
 
   removerDaLista(productID:number){

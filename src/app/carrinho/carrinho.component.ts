@@ -58,7 +58,7 @@ export class CarrinhoComponent implements OnInit {
     else if (this.actRoute.snapshot.params.filtrar == 'bemvindo'){
       this.userLoggedIn = true;
       this.userSelfId = this.actRoute.snapshot.params.filtroInput.toString();
-      console.log(this.userSelfId);
+      // console.log(this.userSelfId);
 
     }
 
@@ -106,7 +106,7 @@ export class CarrinhoComponent implements OnInit {
         else if (Number(data) < 91) this.textProgresso = "A eliminar roedor...";
       },
       (error) => {
-        console.log(error)
+        // console.log(error)
       },
       () => {
         // console.log(`100%! It's done!`);
@@ -144,7 +144,7 @@ export class CarrinhoComponent implements OnInit {
 
   filterCatSingle(categoria:number | string){
 
-    console.log(categoria);
+    // console.log(categoria);
 
     this.listaitens = this.data.procurarListaCatSingle(categoria as number);
 
@@ -184,7 +184,7 @@ export class CarrinhoComponent implements OnInit {
 
     }
 
-    console.log(result)
+    // console.log(result)
   }
 
   itemAddedToWishList(productId:number)
@@ -316,7 +316,7 @@ export class CarrinhoComponent implements OnInit {
 
     }
 
-    console.log(result)
+    // console.log(result)
   }
 
   removerDaLista(productID:number){

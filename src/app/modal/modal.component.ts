@@ -45,12 +45,12 @@ export class ModalComponent implements OnInit, OnChanges {
 
     if (desejoCopiar){
       this._login.copiarAnonymousLists();
-      console.log('produtos guardados');
+      // console.log('produtos guardados');
     }
 
 
 
-    console.log(this.modalRef);
+    // console.log(this.modalRef);
     this.modalRef.close();
     // this.modalRef.dismiss();
 

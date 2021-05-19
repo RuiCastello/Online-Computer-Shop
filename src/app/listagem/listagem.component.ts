@@ -53,7 +53,7 @@ export class ListagemComponent implements OnInit {
     else if (this.actRoute.snapshot.params.filtrar == 'bemvindo'){
       this.userLoggedIn = true;
       this.userSelfId = this.actRoute.snapshot.params.filtroInput.toString();
-      console.log(this.userSelfId);
+      // console.log(this.userSelfId);
     }
 
     //Verifica se o utilizador está autenticado e caso esteja, então vai buscar o primeiro nome dele para usar em mensagens de interação com o utilizador no template (por exemplo, de boas-vindas)
@@ -166,7 +166,7 @@ export class ListagemComponent implements OnInit {
     let result:string;
 
     if(!event) {
-      console.log('dropdown closed');
+      // console.log('dropdown closed');
       result = this.ordenarControl.value;
 
       if (result){

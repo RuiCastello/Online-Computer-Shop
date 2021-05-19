@@ -72,7 +72,7 @@ export class LoginComponent implements OnInit, OnChanges  {
     // console.log(loginForm);
 
     let foiEncontrado:number | boolean = this._login.utilizadorEnviaLogin(this.utilizador.username, this.utilizador.password);
-    console.log(this._login.listaUtilizadores);
+    // console.log(this._login.listaUtilizadores);
 
     if (foiEncontrado && foiEncontrado > 0) {
       this.userSelfId = foiEncontrado;
@@ -86,10 +86,10 @@ export class LoginComponent implements OnInit, OnChanges  {
   changeRoute(rota:string, subpath:string, subSubpath?:string) {
     this.router.navigate([rota, subpath, subSubpath]).then(
       nav => {
-        console.log(nav); // true se a navegação funcionou
+        // console.log(nav); // true se a navegação funcionou
       },
       err => {
-        console.log(err) // output do erro se algo correu mal
+        // console.log(err) // output do erro se algo correu mal
       }
       );
     }

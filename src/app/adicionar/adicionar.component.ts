@@ -63,12 +63,12 @@ export class AdicionarComponent implements OnInit {
   //Métodos de teste para aprendizagem e experimentação
 
   teste(){
-    console.log(this.something)
-    console.log(this.ngFormElement)
+    // console.log(this.something)
+    // console.log(this.ngFormElement)
   }
   
   teste2(variavel){
-    console.log(variavel)
+    // console.log(variavel)
   }
   
   //Método principal que recebe e trata os dados provenientes da form do template

@@ -47,13 +47,13 @@ export class LoginService {
     novoUtilizador = new Utilizador((idUltimoUtilizador + 1 ), true, 'maneli', 'José Manuel dos Santos Silva e Cunha', 'maneli@gmail.com', '21746292832', '123123123aA1!', [], [], 'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1050&q=80', {cidade: '', codigoPostal: '', pais: '', rua: ''},'c2938nu2398c32cne23');
     this._listaUtilizadores.push(novoUtilizador);
 
-    console.log(this._listaUtilizadores)
+    // console.log(this._listaUtilizadores)
     //console.log(novoUtilizador)
     
 
     //funções criadas enquando estava a testar diferentes métodos de ligar à firebase e extrair dados
     let gotData = (data) => {
-      console.log(data.val());
+      // console.log(data.val());
       let novaLista = data.val();
       this._listaUtilizadores = novaLista;
       // this.utilizadorEstaAutenticado();
@@ -62,7 +62,7 @@ export class LoginService {
     };
 
     let errData = (error) => {
-      console.log(error);
+      // console.log(error);
       console.log('ERRO a buscar dados na firebase');
     };
 
@@ -80,7 +80,6 @@ export class LoginService {
     //A partir desta referência à lista de Utilizadores na Firebase, podemos extraí-la e guardá-la numa variável, neste caso guardá-la e mantê-la atualizada sempre que a base de dados mude.
     db.list('/utilizadores').valueChanges()
     .subscribe(utilizadores =>{
-      // console.log('WHATT')
       // console.log(utilizadores)
       let novaLista = <Utilizador[]>utilizadores;
 
@@ -116,7 +115,7 @@ export class LoginService {
     {
       this.previous_userLogado = userLogado;
       this.previous_token = token;
-      console.log(this._userLoggedIn)
+      // console.log(this._userLoggedIn)
       this._userLoggedIn.next(state);
     }
   }
@@ -459,8 +458,8 @@ export class LoginService {
           }
 
         })
-        console.log (this.utilizadorAnonimo.wishList)
-        console.log (wishListUserAutenticado)
+        // console.log (this.utilizadorAnonimo.wishList)
+        // console.log (wishListUserAutenticado)
       }
 
       //Se o carrinho anónimo tem produtos, então copiá-los para o carrinho do user registado
@@ -477,8 +476,8 @@ export class LoginService {
           }
 
         })
-        console.log (this.utilizadorAnonimo.carrinho)
-        console.log (carrinhoUserAutenticado)
+        // console.log (this.utilizadorAnonimo.carrinho)
+        // console.log (carrinhoUserAutenticado)
       }
 
     }

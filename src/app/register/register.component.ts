@@ -64,7 +64,7 @@ onSubmit(registerForm: NgForm){
   // console.log(loginForm);
 
     let foiAdicionado:string = this._login.adicionarUtilizador(this.utilizador);
-    console.log(this._login.listaUtilizadores);
+    // console.log(this._login.listaUtilizadores);
 
     if (foiAdicionado == "sucesso") this.changeRoute('/login','registado', '');
     else {
